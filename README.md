@@ -1,9 +1,9 @@
-# goal-conditioned-control
+# Goal-conditioned RL <-> Dual control
 
 Companion code to our [paper](https://arxiv.org/abs/2512.06471) on connections between goal-conditioned reinforcement learning and optimal control.
 
 ## Set-up
-Create a virtual enviroment and install dependencies:
+Create a virtual environment and install dependencies:
 ```
 uv init
 uv sync

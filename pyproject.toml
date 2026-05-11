@@ -1,7 +1,7 @@
 [project]
 name = "goal-conditioned-control"
 version = "0.1.0"
-description = "Add your description here"
+description = "Companion code for goal-conditioned control paper"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

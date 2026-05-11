@@ -92,8 +92,6 @@ class Args:
         entry_point='cstr:scenarioCSTR_ParticleStateEnv',
     )
 
-    print(gym.pprint_registry())
-
 def make_env(env_id, seed, idx, capture_video, capture_frame, run_name, num_particles, combine_particles, estimate_state, mean_state, reward_func, stochastic_env, randomized_env, tol):
     def thunk():
         if capture_video and idx == 0:
@@ -287,9 +285,6 @@ if __name__ == "__main__":
         if global_step < args.learning_starts:
             actions = np.array([envs.single_action_space.sample() for _ in range(envs.num_envs)])
         else:
-            if np.any(np.isnan(obs)):
-                print('obs')
-                print(obs)
             actions, _, _ = actor.get_action(torch.Tensor(obs).to(device))
             actions = actions.detach().cpu().numpy()
 
@@ -301,10 +296,8 @@ if __name__ == "__main__":
             for info in infos["final_info"]:
                 writer.add_scalar("charts/time_near_goal", info["cumulative_time_near_goal"], global_step)
                 if info is not None:
-                    print(f"global_step={global_step}, episodic_return={info['episode']['r']}")
                     writer.add_scalar("charts/episodic_return", info["episode"]["r"], global_step)
                     writer.add_scalar("charts/episodic_length", info["episode"]["l"], global_step)
-                    
                     break
                 
 

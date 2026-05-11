@@ -165,8 +165,6 @@ class scenarioCSTR_ParticleStateEnv(gym.Env):
             min_particle = np.min(self.particles, axis=0)
 
             obs = self.particles_state if not self.mean_state else mean
-            if np.any(np.isnan(obs)):
-                print("observation step")
             if self.track_estimator:
                 self.all_state_estimate.append([self.state, self.state_pf])
                 self.all_state_var.append(var)
@@ -295,17 +293,10 @@ class scenarioCSTR_ParticleStateEnv(gym.Env):
         rand_beta = np.random.rand(self.num_particles)*(self.beta_range[1] - self.beta_range[0]) + self.beta_range[0]
         new_states = [self._transition(state, self.action, alpha=alpha, beta=beta) for state, alpha, beta in zip(self.particles, rand_alpha, rand_beta)]
         # new_states = [state + self.state_distribution.rvs() for state in new_states_nonoise]
-        if np.any(np.isnan(new_states)):
-            print("new states")
 
         # step 2: update weights using measurement model
         new_weights_unnormalized = [np.clip(multivariate_normal(mean=self._obs(state), cov=self.obs_cov).pdf(self.observation),a_min=1e-8,a_max=None) * weight for (state,weight) in zip(new_states, self.weights)] # clipping to avoid some pathological NaNs
-        if np.any(np.isnan(new_weights_unnormalized)):
-            print("new_weights_unnormalized")        
         new_weights = new_weights_unnormalized / sum(new_weights_unnormalized)
-        if np.any(np.isnan(new_weights)):
-            print("new_weights") 
-            print(new_weights_unnormalized)  
         self.particle_param = [self.alpha, self.beta, rand_alpha[np.argsort(new_weights)], rand_beta[np.argsort(new_weights)]]
 
         # step 2.5: estimate the probability of being at the goal
@@ -437,8 +428,6 @@ class scenarioCSTR_ParticleStateEnv(gym.Env):
             self.ax = None
 
 if __name__ == '__main__':
-    print("Checking env")
-
     import matplotlib.pyplot as plt
     from envs.TerminalFrameCapture import TerminalFrameCapture
 

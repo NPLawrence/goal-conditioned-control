@@ -1,6 +1,8 @@
-def main():
-    print("Hello from goal-conditioned-control!")
+"""
+Goal-conditioned reinforcement learning and optimal control.
 
+This repo provides companion code for research on connections between 
+goal-conditioned reinforcement learning and optimal control.
 
-if __name__ == "__main__":
-    main()
+See README.md for setup and usage instructions.
+"""
